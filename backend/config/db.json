@@ -1,0 +1,9 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "q",
+    "database": "todo_list",
+    "host": "host.docker.internal",
+    "dialect": "postgres"
+  }
+}
