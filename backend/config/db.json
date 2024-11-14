@@ -3,7 +3,7 @@
     "username": "postgres",
     "password": "q",
     "database": "todo_list",
-    "host": "host.docker.internal",
+    "host": "localhost",
     "dialect": "postgres"
   }
 }

@@ -4,13 +4,14 @@ const { Task } = require("../models");
 module.exports.createTask = async (req, res, next) => {
   try {
     const { body } = req;
+
     const task = await Task.create(body);
 
     if (!task) {
-      return next(createError(400), "Error while creating a task");
+      return next(createError(400), "Error creating task");
     }
 
-    res.send({ data: task });
+    res.status(201).send({ data: task });
   } catch (err) {
     next(err);
   }
@@ -18,21 +19,18 @@ module.exports.createTask = async (req, res, next) => {
 
 module.exports.updateTask = async (req, res, next) => {
   try {
-    const {
-      params: { taskId },
-      body,
-    } = req;
+    const { id } = req.params;
 
-    const [, [updatedTask]] = await Task.update(body, {
-      where: { id: taskId },
+    const [, [updatedTask]] = await Task.update(req.body, {
+      where: { id },
       returning: true,
     });
 
     if (!updatedTask) {
-      return next(createError(400), "Failed to update task");
+      return next(createError(400), "Error updating task");
     }
 
-    res.send({ data: updatedTask });
+    res.status(200).send({ data: updatedTask });
   } catch (err) {
     next(err);
   }
@@ -47,10 +45,10 @@ module.exports.getAllTasks = async (req, res, next) => {
     });
 
     if (!tasks.length) {
-      return next(createError(404, "No more tasks"));
+      return next(createError(404, "Tasks not found"));
     }
 
-    res.send({ data: tasks });
+    res.status(200).send({ data: tasks });
   } catch (err) {
     next(err);
   }
@@ -58,16 +56,15 @@ module.exports.getAllTasks = async (req, res, next) => {
 
 module.exports.deleteTask = async (req, res, next) => {
   try {
-    const {
-      params: { taskId },
-    } = req;
+    const { id } = req.params;
 
-    const rowsCount = await Task.destroy({ where: { id: taskId } });
+    const rowsCount = await Task.destroy({ where: { id } });
 
     if (rowsCount !== 1) {
       return next(createError(404, "Task not found"));
     }
-    res.send({ data: taskId });
+
+    res.status(200).send({ data: id });
   } catch (err) {
     next(err);
   }

@@ -1,6 +1,7 @@
 "use strict";
-const { Model } = require("sequelize");
+
 const { isBefore } = require("date-fns");
+const { Model } = require("sequelize");
 
 module.exports = (sequelize, DataTypes) => {
   class Task extends Model {}
@@ -22,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           isValidDate(value) {
             if (isBefore(new Date(value), new Date())) {
-              throw new Error("You cannot create a task in the past tense");
+              throw new Error("You cannot create a task with a deadline that has already passed");
             }
           },
         },

@@ -1,3 +1,7 @@
+!.env.example
+!.prettierrc.json
+!.sequelizerc
+
 /node_modules/
 /.vscode/
 /.idea/
