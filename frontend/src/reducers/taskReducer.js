@@ -1,5 +1,5 @@
-import produce from 'immer';
-import ACTION_TYPES from 'actions/types';
+import produce from "immer";
+import ACTION_TYPES from "actions/types";
 
 const initialState = {
   tasks: [],
@@ -8,98 +8,99 @@ const initialState = {
 };
 
 const handlers = {
-  //create task
-  [ACTION_TYPES.CREATE_TASK_REQUEST]: produce((draftState, action) => {
-    draftState.isFetching = true;
-  }),
+  // Create task
+  [ACTION_TYPES.CREATE_TASK_REQUEST]: (draft) => {
+    draft.isFetching = true;
+  },
 
-  [ACTION_TYPES.CREATE_TASK_SUCCESS]: produce((draftState, action) => {
-    const {
-      payload: { task },
-    } = action;
-    draftState.tasks.push(task);
-  }),
+  [ACTION_TYPES.CREATE_TASK_SUCCESS]: (draft, action) => {
+    const { task } = action.payload;
 
-  [ACTION_TYPES.CREATE_TASK_ERROR]: produce((draftState, action) => {
-    const {
-      payload: { error },
-    } = action;
-    draftState.error = error;
-  }),
+    draft.isFetching = false;
+    draft.tasks.push(task);
+  },
 
-  //update task
-  [ACTION_TYPES.UPDATE_TASK_REQUEST]: produce((draftState, action) => {
-    draftState.isFetching = true;
-  }),
+  [ACTION_TYPES.CREATE_TASK_ERROR]: (draft, action) => {
+    const { error } = action.payload;
 
-  [ACTION_TYPES.UPDATE_TASK_SUCCESS]: produce((draftState, action) => {
-    const {
-      payload: { task: newTask },
-    } = action;
-    const id = draftState.tasks.findIndex(task => task.id === newTask.id);
-    draftState.tasks[id] = newTask;
-  }),
+    draft.isFetching = false;
+    draft.error = error;
+  },
 
-  [ACTION_TYPES.UPDATE_TASK_ERROR]: produce((draftState, action) => {
-    const {
-      payload: { error },
-    } = action;
-    draftState.error = error;
-  }),
+  // Update task
+  [ACTION_TYPES.UPDATE_TASK_REQUEST]: (draft) => {
+    draft.isFetching = true;
+  },
 
-  //get tasks
-  [ACTION_TYPES.GET_TASKS_REQUEST]: produce((draftState, action) => {
-    draftState.isFetching = true;
-  }),
+  [ACTION_TYPES.UPDATE_TASK_SUCCESS]: (draft, action) => {
+    const { task } = action.payload;
 
-  [ACTION_TYPES.GET_TASKS_SUCCESS]: produce((draftState, action) => {
-    const {
-      payload: { tasks },
-    } = action;
-    draftState.tasks.unshift(...tasks);
-  }),
+    const index = draft.tasks.findIndex(({ id }) => id === task.id);
 
-  [ACTION_TYPES.GET_TASKS_ERROR]: produce((draftState, action) => {
-    const {
-      payload: { error },
-    } = action;
-    draftState.error = error;
-  }),
+    if (index !== -1) {
+      draft.tasks[index] = task;
+    }
 
-  //delete task
-  [ACTION_TYPES.DELETE_TASK_REQUEST]: produce((draftState, action) => {
-    draftState.isFetching = true;
-  }),
+    draft.isFetching = false;
+  },
 
-  [ACTION_TYPES.DELETE_TASK_SUCCESS]: produce((draftState, action) => {
-    const {
-      payload: { id },
-    } = action;
-    draftState.isFetching = false;
-    draftState.tasks = draftState.tasks.filter(t => t.id !== Number(id));
-  }),
+  [ACTION_TYPES.UPDATE_TASK_ERROR]: (draft, action) => {
+    const { error } = action.payload;
 
-  [ACTION_TYPES.DELETE_TASK_ERROR]: produce((draftState, action) => {
-    const {
-      payload: { error },
-    } = action;
-    draftState.error = error;
-  }),
+    draft.isFetching = false;
+    draft.error = error;
+  },
 
-  //clear error
-  [ACTION_TYPES.CLEAR_TASK_ERROR]: produce((draftState, action) => {
-    draftState.error = null;
-  }),
+  // Get tasks
+  [ACTION_TYPES.GET_TASKS_REQUEST]: (draft) => {
+    draft.isFetching = true;
+  },
+
+  [ACTION_TYPES.GET_TASKS_SUCCESS]: (draft, action) => {
+    const { tasks } = action.payload;
+
+    draft.isFetching = false;
+    draft.tasks.push(...tasks);
+  },
+
+  [ACTION_TYPES.GET_TASKS_ERROR]: (draft, action) => {
+    const { error } = action.payload;
+
+    draft.isFetching = false;
+    draft.error = error;
+  },
+
+  // Delete task
+  [ACTION_TYPES.DELETE_TASK_REQUEST]: (draft) => {
+    draft.isFetching = true;
+  },
+
+  [ACTION_TYPES.DELETE_TASK_SUCCESS]: (draft, action) => {
+    const { id } = action.payload;
+
+    draft.isFetching = false;
+    draft.tasks = draft.tasks.filter((task) => task.id !== parseInt(id));
+  },
+
+  [ACTION_TYPES.DELETE_TASK_ERROR]: (draft, action) => {
+    const { error } = action.payload;
+
+    draft.isFetching = false;
+    draft.error = error;
+  },
+
+  // Clear error
+  [ACTION_TYPES.CLEAR_TASK_ERROR]: (draft) => {
+    draft.error = null;
+  },
 };
 
-function taskReducer (state = initialState, action) {
-  const { type } = action;
-  const handler = handlers[type];
+const taskReducer = produce((draft, action) => {
+  const handler = handlers[action.type];
 
   if (handler) {
-    return handler(state, action);
+    handler(draft, action);
   }
-  return state;
-}
+}, initialState);
 
 export default taskReducer;

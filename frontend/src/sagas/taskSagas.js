@@ -1,61 +1,57 @@
-import { put } from 'redux-saga/effects';
-import * as ActionCreators from 'actions';
-import * as API from 'api';
+import { put } from "redux-saga/effects";
+import * as ActionCreators from "actions";
+import * as API from "api";
 
-export function * createTaskSaga (action) {
+export function* createTaskSaga(action) {
   try {
-    const { payload } = action;
+    const { task } = action.payload;
 
-    const {
-      data: { data: task },
-    } = yield API.createTask({ ...payload.task });
+    const { data: createdTask } = yield API.createTask(task);
 
-    yield put(ActionCreators.createTaskSuccess(task));
-  } catch (error) {
+    yield put(ActionCreators.createTaskSuccess(createdTask));
+  } catch (err) {
+    const error = err.response?.data?.errors[0]?.message || "An unknown error occurred";
+
     yield put(ActionCreators.createTaskError(error));
   }
 }
 
-export function * updateTaskSaga (action) {
+export function* updateTaskSaga(action) {
   try {
-    const {
-      payload: { id , taskData},
-    } = action;
+    const { id, newTaskData } = action.payload;
 
-    const {
-      data: { data: task },
-    } = yield API.updateTask({ taskId: id, taskData });
+    const { data: updatedTask } = yield API.updateTask({ id, newTaskData });
 
-    yield put(ActionCreators.updateTaskSuccess({task}));
+    yield put(ActionCreators.updateTaskSuccess(updatedTask));
+  } catch (err) {
+    const error = err.response?.data?.errors[0]?.message || "An unknown error occurred";
 
-  } catch (error) {
     yield put(ActionCreators.updateTaskError(error));
   }
 }
 
-export function * getTasksSaga (action) {
+export function* getTasksSaga(action) {
   try {
-    const {
-      data: { data: tasks },
-    } = yield API.getTasks(action.payload);
+    const { data: tasks } = yield API.getTasks(action.payload);
+
     yield put(ActionCreators.getTasksSuccess(tasks));
-  } catch (error) {
+  } catch (err) {
+    const error = err.response?.data?.errors[0]?.message || "An unknown error occurred";
+
     yield put(ActionCreators.getTasksError(error));
   }
 }
 
-export function * deleteTaskSaga (action) {
+export function* deleteTaskSaga(action) {
   try {
-    const {
-      payload: { id },
-    } = action;
+    const { id } = action.payload;
 
-    const {
-      data: { data: taskId },
-    } = yield API.deleteTask({ taskId: id });
+    const { data: deletedTaskId } = yield API.deleteTask(id);
 
-    yield put(ActionCreators.deleteTaskSuccess(taskId));
-  } catch (error) {
+    yield put(ActionCreators.deleteTaskSuccess(deletedTaskId));
+  } catch (err) {
+    const error = err.response?.data?.errors[0]?.message || "An unknown error occurred";
+
     yield put(ActionCreators.deleteTaskError(error));
   }
 }

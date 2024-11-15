@@ -1,18 +1,13 @@
-import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import qs from 'query-string';
-import * as ActionCreators from 'actions';
-import Error from 'components/Error/index';
-import Task from 'components/Task/index';
+import { useSelector, useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import { useEffect } from "react";
+import * as ActionCreators from "actions";
+import Error from "components/Error/index";
+import Task from "components/Task/index";
 
 const TaskList = () => {
   const { tasks, error } = useSelector(({ task }) => task);
   const dispatch = useDispatch();
-
-  const location = useLocation();
-  const [search, setSearch] = useState(qs.parse(location.search));
 
   const {
     getTasksRequest,
@@ -22,17 +17,14 @@ const TaskList = () => {
   } = bindActionCreators(ActionCreators, dispatch);
 
   useEffect(() => {
-    setSearch(qs.parse(location.search));
-  }, [location.search]);
-
-  useEffect(() => {
-    getTasksRequest(search);
+    getTasksRequest();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <section>
       {error && <Error error={error} clearError={clearTaskError} />}
-      {tasks.map(task => (
+      {tasks.map((task) => (
         <Task
           key={task.id}
           {...task}

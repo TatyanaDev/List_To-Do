@@ -1,17 +1,25 @@
-import { Formik, Form, Field } from 'formik';
-import { useDispatch } from 'react-redux';
-import styles from './taskForm.module.scss';
-import * as ActionCreators from 'actions';
+import { Formik, Form, Field } from "formik";
+import { useDispatch } from "react-redux";
+import * as ActionCreators from "actions";
+import styles from "./taskForm.module.scss";
 
 const TaskForm = () => {
   const dispatch = useDispatch();
+
   const values = {
-    body: '',
-    deadline: '',
+    body: "",
+    deadline: "",
     isDone: false,
   };
+
   const onSubmit = (values, formikBag) => {
-    dispatch(ActionCreators.createTaskRequest(values));
+    dispatch(
+      ActionCreators.createTaskRequest({
+        ...values,
+        deadline: values.deadline || null,
+      })
+    );
+
     formikBag.resetForm();
   };
 
@@ -19,15 +27,15 @@ const TaskForm = () => {
     <Formik initialValues={values} onSubmit={onSubmit}>
       <Form>
         <div>
-          <Field name='body' className={styles.inputTodo} />
-          <button type='submit' className={styles.button}>
+          <Field name="body" className={styles.inputTodo} />
+          <button type="submit" className={styles.button}>
             Create Task
           </button>
-          <button type='reset' className={styles.button}>
+          <button type="reset" className={styles.button}>
             Reset Task
           </button>
         </div>
-        <Field name='deadline' type='date' className={styles.inputDeadline} />
+        <Field name="deadline" type="date" className={styles.inputDeadline} />
       </Form>
     </Formik>
   );
