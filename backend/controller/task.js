@@ -42,6 +42,7 @@ module.exports.getAllTasks = async (req, res, next) => {
 
     const tasks = await Task.findAll({
       ...pagination,
+      order: [['createdAt', 'ASC']],
     });
 
     if (!tasks.length) {
