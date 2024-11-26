@@ -1,34 +1,37 @@
-@import 'common/styles/templates';
+@use "common/styles/templates" as *;
 
-.containerTask {
-  background-color: white;
-  max-width: 500px;
-  margin: 0 auto;
-}
-
-.task {
-  padding: 8px;
+.taskContainer {
+  background-color: #ffffff;
   border: 1px solid #97bbe8;
-  margin-bottom: 3px;
-}
+  margin: 0 auto 3px;
+  padding: 8px;
 
-.headerTask {
-  @extend %flex;
-  font-family: sans-serif;
-}
+  .taskInfo {
+    @extend %flex;
+    margin-bottom: 5px;
+  }
 
-.wrapper {
-  @extend %flex;
-  align-items: center;
-}
+  .taskContentWrapper {
+    @extend %flex;
+    align-items: center;
 
-.taskBody {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  font-family: sans-serif;
-}
+    .input {
+      margin-right: 5px;
+      cursor: pointer;
+    }
 
-.buttonDelete {
-  @extend %button;
+    .taskBody {
+      -webkit-box-orient: vertical;
+      text-overflow: ellipsis;
+      -webkit-line-clamp: 2;
+      display: -webkit-box;
+      overflow: hidden;
+      line-clamp: 2;
+    }
+
+    .deleteButton {
+      @extend %button;
+      margin-left: 5px;
+    }
+  }
 }

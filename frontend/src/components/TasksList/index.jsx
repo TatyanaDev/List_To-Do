@@ -5,7 +5,7 @@ import * as ActionCreators from "actions";
 import Error from "components/Error/index";
 import Task from "components/Task/index";
 
-const TaskList = () => {
+const TasksList = () => {
   const { tasks, error } = useSelector(({ task }) => task);
   const dispatch = useDispatch();
 
@@ -22,18 +22,20 @@ const TaskList = () => {
   }, []);
 
   return (
-    <section>
+    <>
       {error && <Error error={error} clearError={clearTaskError} />}
-      {tasks.map((task) => (
-        <Task
-          key={task.id}
-          {...task}
-          deleteTaskRequest={deleteTaskRequest}
-          updateTaskRequest={updateTaskRequest}
-        />
-      ))}
-    </section>
+      <ul>
+        {tasks.map((task) => (
+          <Task
+            key={task.id}
+            {...task}
+            deleteTaskRequest={deleteTaskRequest}
+            updateTaskRequest={updateTaskRequest}
+          />
+        ))}
+      </ul>
+    </>
   );
 };
 
-export default TaskList;
+export default TasksList;

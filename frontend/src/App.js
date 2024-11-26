@@ -1,16 +1,5 @@
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import ToDoList from "pages/TodoList"
+import ToDoList from "pages/ToDoList";
 
-function App () {
-  return (
-    <div>
-      <BrowserRouter>
-        <Switch>
-          <Route exact path='/' component={ToDoList} />
-        </Switch>
-      </BrowserRouter>
-    </div>
-  );
-}
+const App = () => <ToDoList />;
 
 export default App;

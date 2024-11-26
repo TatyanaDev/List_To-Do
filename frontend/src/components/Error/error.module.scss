@@ -1,21 +1,22 @@
-@import 'common/styles/templates';
+@use "common/styles/templates" as *;
 
-.containerError {
-  background-color: pink;
-  max-width: 500px;
-  margin: 0 auto;
-  position: absolute;
-  padding: 8px 10px;
+.errorWrapper {
+  justify-content: space-between;
+  background-color: #ffc0cb;
+  align-items: center;
+  margin: 0 auto 10px;
   border-radius: 5px;
-  left: 68%;
-}
+  padding: 8px 10px;
+  display: flex;
 
-.error {
-  color: red;
-  font-family: sans-serif;
-}
+  .error {
+    white-space: pre-wrap;
+    text-align: start;
+    color: #ff0000;
+  }
 
-.buttonDelete {
-  @extend %button;
-  margin-left: 15px;
+  .deleteButton {
+    @extend %button;
+    margin-left: 15px;
+  }
 }
