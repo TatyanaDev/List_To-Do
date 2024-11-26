@@ -3,7 +3,7 @@ module.exports = async (req, res, next) => {
     const { limit, offset } = req.query;
 
     req.pagination = {
-      limit: !limit || limit > 5 || limit <= 0 ? 5 : limit,
+      limit: !limit || limit > 10 || limit <= 0 ? 10 : limit,
       offset: !offset || offset <= 0 ? 0 : offset,
     };
 

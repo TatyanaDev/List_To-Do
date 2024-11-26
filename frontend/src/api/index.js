@@ -33,7 +33,7 @@ export const updateTask = async ({ id, newTaskData }) => {
   }
 };
 
-export const getTasks = async ({ page = 1, limit = 5 }) => {
+export const getTasks = async ({ page = 1, limit = 10 }) => {
   try {
     const query = QS.stringify({ page, limit });
 
