@@ -1,11 +1,13 @@
 import styles from "./error.module.scss";
 
-const Error = ({ error, clearError }) => (
+const Error = ({ error, clearError = false }) => (
   <div className={styles.errorWrapper}>
     <p className={styles.error}>{error}</p>
-    <button onClick={clearError} className={styles.deleteButton}>
-      X
-    </button>
+    {clearError && (
+      <button onClick={clearError} className={styles.deleteButton}>
+        X
+      </button>
+    )}
   </div>
 );
 

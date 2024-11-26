@@ -2,8 +2,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import { useEffect } from "react";
 import * as ActionCreators from "actions";
-import Error from "components/Error/index";
-import Task from "components/Task/index";
+import Error from "components/Error";
+import Task from "components/Task";
 
 const TasksList = () => {
   const { tasks, error } = useSelector(({ task }) => task);

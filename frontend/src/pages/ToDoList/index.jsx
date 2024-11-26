@@ -1,5 +1,5 @@
-import TaskInputPanel from "components/TaskInputPanel/index";
-import TasksList from "components/TasksList/index";
+import TaskInputPanel from "components/TaskInputPanel";
+import TasksList from "components/TasksList";
 import styles from "./toDoList.module.scss";
 
 const ToDoList = () => (
