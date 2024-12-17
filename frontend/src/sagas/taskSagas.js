@@ -20,7 +20,7 @@ export function* updateTaskSaga(action) {
   try {
     const { id, newTaskData } = action.payload;
 
-    const { data: updatedTask } = yield API.updateTask({ id, newTaskData });
+    const { data: updatedTask } = yield API.updateTask(id, newTaskData);
 
     yield put(ActionCreators.updateTaskSuccess(updatedTask));
   } catch (err) {

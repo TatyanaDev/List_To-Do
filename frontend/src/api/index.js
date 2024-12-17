@@ -19,7 +19,7 @@ export const createTask = async (task) => {
   }
 };
 
-export const updateTask = async ({ id, newTaskData }) => {
+export const updateTask = async (id, newTaskData) => {
   if (!id) {
     throw new Error("Task ID is required for updating a task.");
   }
@@ -58,5 +58,4 @@ export const deleteTask = async (id) => {
     throw error;
   }
 };
-
-export default http;
+ 
