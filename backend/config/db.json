@@ -5,5 +5,19 @@
     "database": "todo_list",
     "host": "localhost",
     "dialect": "postgres"
+  },
+  "production": {
+    "username": "postgres",
+    "password": "q",
+    "database": "todo_list",
+    "host": "localhost",
+    "dialect": "postgres",
+    "ssl": true,
+    "dialectOptions": {
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
+    }
   }
 }
